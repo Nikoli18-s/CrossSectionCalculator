@@ -1,0 +1,1 @@
+1.10	\F\G77\BIN/g77.exe -ffree-form stm.for -ostm.exe ..\mine\*.o \f\g77\lib\..\..\SLATEC\lib\libSLATEC.a
