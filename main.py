@@ -115,6 +115,7 @@ if __name__ == '__main__':
                 print('Значение должно быть больше 0.')
                 exit(0)
             else:
+
                 energy_list.append(energy)
         if len(energy_list) == 0:
             print('Значений не введено.')
