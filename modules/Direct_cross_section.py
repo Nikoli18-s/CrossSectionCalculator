@@ -82,7 +82,7 @@ def _calculate_direct_cross_section(isotope, electron_projectile_energy_values, 
     output_filename = f'cross_section_{energy_level}_{transition_multipole}.txt'
 
     with open(path_to_work_dir + '/' + output_filename, 'w') as file:
-        file.write("Electron_projectile_energy, keV\tcross_section, barn\n")
+        file.write("Electron_projectile_energy, keV\tcross_section, cm^2\n")
         for energy, cross_section in zip(electron_projectile_energy_values, list(cross_sections.values())):
             file.write(f"{energy}\t{cross_section}\n")
 

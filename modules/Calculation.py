@@ -3,8 +3,9 @@ import time
 import numpy as np
 
 import modules.RHFS_TK as rhfs_tk
-from modules.Direct_cross_section import calculate_direct_cross_section_parallel
+from modules.GraphsPlotter import GraphsPlotter
 from modules.Indirect_cross_section import calculate_indirect_cross_section
+from modules.Direct_cross_section import calculate_direct_cross_section_parallel
 
 path_to_calculations_dir = 'calculations'
 standard_calculation_name = 'calculation'
@@ -33,10 +34,14 @@ class Calculation:
         self.write_by_chain = False
         self.energies_list = []
 
+        self.plot_graphs = False
+        self.graph_plotter = None
+
     def __str__(self):
         print_str = 'Общие парметры расчета\n'
         print_str += f'Название расчета: {self.isotope.name}_{self.name}\n'
         print_str += f'{str(self.isotope)}\n'
+
         if self.direct:
             print_str += '\nПараметры расчета прямого сечения\n'
             print_str += f'Число процессоров для расчета: {self.CPUs_number}\n'
@@ -55,6 +60,9 @@ class Calculation:
             for E in self.energies_list:
                 print_str += f' {E} кэВ,'
             print_str = print_str[:-1]
+
+        if self.plot_graphs:
+            print_str += f'\n{str(self.graph_plotter)}'
 
         return print_str
 
@@ -78,6 +86,17 @@ class Calculation:
     def set_indirect_parameters(self, write_by_chain, energies_list):
         self.write_by_chain = write_by_chain
         self.energies_list = energies_list.copy()
+
+    def set_plot_graphs_parameters(self, plot_graphs, plot_potential, plot_direct_cross_sections,
+                                   plot_indirect_cross_sections):
+        calculation_full_name = f'{self.isotope.name}_{self.name}'
+        path_to_calculation_dir = path_to_calculations_dir + '/' + calculation_full_name
+
+        self.plot_graphs = plot_graphs
+
+        if self.plot_graphs:
+            self.graph_plotter = GraphsPlotter(path_to_calculation_dir, plot_potential, plot_direct_cross_sections,
+                                               plot_indirect_cross_sections)
 
     def run(self):
         calculation_full_name = f'{self.isotope.name}_{self.name}'
@@ -107,6 +126,9 @@ class Calculation:
                 print('')
                 calculate_indirect_cross_section(self.isotope, E, self.write_by_chain, path_to_calculation_dir)
 
+        if self.plot_graphs:
+            self.graph_plotter.run()
+
         end_time = time.time()
         elapsed_time = end_time - start_time
         elapsed_time_min = int(elapsed_time//60)
@@ -115,3 +137,4 @@ class Calculation:
         print('')
         print('Расчет завершен успешно.')
         print(f'Время выпонения расчета: {elapsed_time_min} мин, {elapsed_time_sec} c.')
+

@@ -123,6 +123,29 @@ if __name__ == '__main__':
 
         calculation.set_indirect_parameters(write_by_chain, energy_list)
 
+    answer = input('Построить графики для результатов? (Y/N) ')
+    plot_graphs = True
+    if answer == 'N':
+        plot_graphs = False
+
+    answer = input('Построить графики для потенциалов? (Y/N) ')
+    plot_potential = True
+    if answer == 'N':
+        plot_potential = False
+
+    answer = input('Построить графики для прямого сечения рассеяния? (Y/N) ')
+    plot_direct_cross_sections = True
+    if answer == 'N':
+        plot_direct_cross_sections = False
+
+    answer = input('Построить графики для непрямого сечения рассеяния? (Y/N) ')
+    plot_indirect_cross_sections = True
+    if answer == 'N':
+        plot_indirect_cross_sections = False
+
+    calculation.set_plot_graphs_parameters(plot_graphs, plot_potential, plot_direct_cross_sections,
+                                           plot_indirect_cross_sections)
+
     print(calculation)
 
     calculation.run()

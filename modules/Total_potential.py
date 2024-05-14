@@ -83,7 +83,7 @@ def _total_potential(isotope, path_to_work_dir, label):
 
     np.savetxt(path_to_unscreened_potential_plot_file, np.c_[radius, plot_unscreened_potential],
                delimiter='\t', header='radius \tV_nucl, eV')
-    np.savetxt(path_to_electron_potential_plot_file, np.c_[radius, plot_electron_potential],
+    np.savetxt(path_to_electron_potential_plot_file, np.c_[radius_from_hartree_fock_slater, electron_potential],
                delimiter='\t', header='radius \tV_nucl, eV')
 
     return total_potential
